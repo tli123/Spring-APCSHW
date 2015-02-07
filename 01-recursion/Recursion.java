@@ -67,10 +67,22 @@ public class Recursion {
 	if (s.equals("")) {
 	    return 0;
 	}
-	if (s.charAt(0).equals(c)) {
+	if (c == s.charAt(0)) {
 	    ans++;
 	}
-	return count(s.substring(1), c);
+	return ans + count(s.substring(1), c);
     }
     
+    public static void main(String[] args) {
+	Recursion r = new Recursion();
+	System.out.println(r.fibonacci(7));
+	System.out.println(r.bunnyEars2(10));
+	System.out.println(r.bunnyEars2(11));
+	System.out.println(r.strCount("apcapcszapapcs", "apcs"));
+	System.out.println(r.sumDigits(7821));
+	System.out.println(r.allStar("SecondTermSenior"));
+	System.out.println(r.len("Homework"));
+	System.out.println(r.count("this is a sentence", 'i'));
+    }
+
 }
