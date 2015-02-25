@@ -22,55 +22,66 @@ public class MakeLake {
 	} catch (Exception e){}
     }
 
-    public void Stomp(int r, int c, int d) {
-	int arraylen;
-	boolean ispast = false;
-	if (r + 2 > lake.length) {
-	    arraylen = r+2 - lake.length;
-	    isrpast = true;
+    public void Stomp(int row, int col, int depth) {
+	int r = 0;
+	int c = 0;
+	if (row + 2 > lake.length) {
+	    r += row + 2 - lake.length;
 	}
-	if (c + 2 > lake.length) {
-	    arraylen = c+2 - lake.length;
-	    ispast = true;
-	}	
-	else if (ispast == false){
-	    arraylen = 9;
+	else {
+	    r += 3;
 	}
-	int[] nums = new int[arraylen];
+	if (col + 2 > lake.length) {
+	    c += col + 2 - lake.length;
+	}
+	else {
+	    c += 3;
+	}
+	int[] nums = new int[r * c];
 	int counter = 0;
-	for (int i = r-1; i < lake.length; i++) {
-	    for (int j = c-1; j < lake.length; j++) {
+	int rcount = 0;
+	int ccount = 0;
+	for (int i = row - 1; i < lake.length && rcount < r; i++) {
+	    for (int j = col - 1; j < lake[i].length && ccount < c; j++) {
 		nums[counter] = lake[i][j];
 		counter++;
+		rcount++;
+		ccount++;
 	    }
 	}
 	int maxnum = 0;
 	for (int i = 0; i < nums.length; i++) {
 	    maxnum = Math.max(maxnum, nums[i]);
 	}
-	int newdepth = maxnum - d;
-	for (int i = 0; i < nums.length; i++) {
-	    if (nums[i] == maxnum) {
-		nums[i] -= d;
-	    }
-	}
+	int newdepth = maxnum - depth;
 	for (int i = 0; i < nums.length; i++) {
 	    if (nums[i] > newdepth) {
 		nums[i] = newdepth;
 	    }
 	}
-	int count = 0;
-	for (int i = r; i < lake.length; i++) {
-	    for (int j = c; j < lake.length; j++) {
-		lake[i][j] = nums[count];
-		count++;
+	counter = 0;
+	rcount = 0;
+	ccount = 0;
+	for (int i = row - 1; i < lake.length && rcount < r; i++) {
+	    for (int j = col - 1; j < lake[i].length && ccount < c; j++) {
+		lake[i][j] = nums[counter];
+		counter++;
+		rcount++;
+		ccount++;
 	    }
 	}
-	
     }
 
     public void Final(int d) {
-	
+	for (int i = 0; i < lake.length; i++) {
+	    for (int j = 0; j < lake[i].length; j++) {
+		lake[i][j] -= d;
+		lake[i][j] *= -1;
+		if (lake[i][j] < 0) {
+		    lake[i][j] = 0;
+		}
+	    }
+	}
     }
 
     public int volume() {
@@ -100,6 +111,7 @@ public class MakeLake {
 	m.Stomp(1, 4, 4);
 	System.out.println(m.toString());
 	m.Stomp(1, 1, 10);
+	m.Final(22);
 	System.out.println(m.toString());
     }
 
