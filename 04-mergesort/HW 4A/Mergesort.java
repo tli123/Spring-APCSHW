@@ -3,6 +3,18 @@ import java.io.*;
 
 public class Mergesort {
 
+    public ArrayList<Integer> Sort(ArrayList<Integer> a) {
+	ArrayList<Integer> one = new ArrayList<Integer>();
+	ArrayList<Integer> two = new ArrayList<Integer>();
+	for (int i = 0; i < a.size() / 2; i++) {
+	    one.add(a.get(i));
+	}
+	for (int i = 0; i < a.size() / 2; i++) {
+	    two.add(a.get(i));
+	}
+	return Merge(Sort(one), Sort(two));
+    }
+
     public ArrayList<Integer> Merge(ArrayList<Integer> a, ArrayList<Integer> b) {
 	ArrayList<Integer> ans = new ArrayList<Integer>();
 	int acount = 0;
@@ -28,20 +40,21 @@ public class Mergesort {
 	    }
 	}
 	return ans;
+
     }
     public static void main(String[] args) {
 	Mergesort s = new Mergesort();
 	ArrayList<Integer> a = new ArrayList<Integer>();
 	ArrayList<Integer> b = new ArrayList<Integer>();
-	a.add(2);
 	a.add(4);
-	a.add(7);
+	a.add(1);
+	a.add(3);
+	a.add(0);
 	a.add(10);
-	b.add(3);
-	b.add(6);
-	b.add(6);
-	b.add(7);
-	b.add(17);
-	System.out.println(s.Merge(a, b));
+	a.add(3);
+	a.add(6);
+	a.add(8);
+	a.add(4);
+	System.out.println(s.Sort(a));
     }
 }
