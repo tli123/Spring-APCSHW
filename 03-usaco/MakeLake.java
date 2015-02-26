@@ -25,30 +25,27 @@ public class MakeLake {
     public void Stomp(int row, int col, int depth) {
 	int r = 0;
 	int c = 0;
-	if (row + 2 > lake.length) {
-	    r += row + 2 - lake.length;
+	if (row + 1 > lake.length) {
+	    r += row + 1 - lake.length;
 	}
 	else {
 	    r += 3;
 	}
-	if (col + 2 > lake.length) {
-	    c += col + 2 - lake.length;
+	if (col + 1 > lake[row - 1].length) {
+	    c += col + 1 - lake[row-1].length;
 	}
 	else {
 	    c += 3;
 	}
-	int[] nums = new int[r * c];
+	int[] nums = new int[r * c];	
 	int counter = 0;
-	int rcount = 0;
-	int ccount = 0;
-	for (int i = row - 1; i < lake.length && rcount < r; i++) {
-	    for (int j = col - 1; j < lake[i].length && ccount < c; j++) {
-		nums[counter] = lake[i][j];
+	for (int rcount = row - 1; rcount < row - 1 + r; rcount++) {
+	    for (int ccount = col - 1; ccount < col - 1 + c; ccount++) {
+		nums[counter] = lake[rcount][ccount];
 		counter++;
-		rcount++;
-		ccount++;
 	    }
 	}
+	System.out.println(Arrays.toString(nums));
 	int maxnum = 0;
 	for (int i = 0; i < nums.length; i++) {
 	    maxnum = Math.max(maxnum, nums[i]);
@@ -59,15 +56,12 @@ public class MakeLake {
 		nums[i] = newdepth;
 	    }
 	}
-	counter = 0;
-	rcount = 0;
-	ccount = 0;
-	for (int i = row - 1; i < lake.length && rcount < r; i++) {
-	    for (int j = col - 1; j < lake[i].length && ccount < c; j++) {
-		lake[i][j] = nums[counter];
+	System.out.println(Arrays.toString(nums));
+        counter = 0;
+	for (int rcount = row - 1; rcount < row -1 + r; rcount++) {
+	    for (int ccount = col - 1; ccount < col - 1 + c; ccount++) {
+		lake[rcount][ccount] = nums[counter];
 		counter++;
-		rcount++;
-		ccount++;
 	    }
 	}
     }
@@ -111,8 +105,10 @@ public class MakeLake {
 	m.Stomp(1, 4, 4);
 	System.out.println(m.toString());
 	m.Stomp(1, 1, 10);
+	System.out.println(m.toString());
 	m.Final(22);
 	System.out.println(m.toString());
+	System.out.println(m.volume());
     }
 
 }
