@@ -3,20 +3,26 @@ import java.io.*;
 
 public class Mergesort {
 
-    public ArrayList<Integer> Sort(ArrayList<Integer> a) {
-	ArrayList<Integer> one = new ArrayList<Integer>();
-	ArrayList<Integer> two = new ArrayList<Integer>();
-	for (int i = 0; i < a.size() / 2; i++) {
-	    one.add(a.get(i));
+    public int[] ArrayList<Integer> Sort(int[] a) {
+	if (a.length <= 1) {
+	    return a;
 	}
-	for (int i = 0; i < a.size() / 2; i++) {
-	    two.add(a.get(i));
+	int[] one = new int[a.length/2];
+	int[] two = new int[a.length - a.length/2];
+	for (int i = 0; i < a.length / 2; i++) {
+	    one[i] = a[i];
 	}
-	return Merge(Sort(one), Sort(two));
+	int counter = 0;
+	for (int i = a.length/2; i < a.length; i++) {
+	    two[counter] = a[i];
+	}
+	int[] first = Sort(one);
+        int[] second = Sort(two);
+	return Merge(first, second);
     }
 
-    public ArrayList<Integer> Merge(ArrayList<Integer> a, ArrayList<Integer> b) {
-	ArrayList<Integer> ans = new ArrayList<Integer>();
+    public int[] Merge(int[] a, int[] b) {
+        int[] ans = new int[a.length + b.length];
 	int acount = 0;
 	int bcount = 0;
 	while (acount < a.size() && bcount < b.size()) {
@@ -45,7 +51,6 @@ public class Mergesort {
     public static void main(String[] args) {
 	Mergesort s = new Mergesort();
 	ArrayList<Integer> a = new ArrayList<Integer>();
-	ArrayList<Integer> b = new ArrayList<Integer>();
 	a.add(4);
 	a.add(1);
 	a.add(3);

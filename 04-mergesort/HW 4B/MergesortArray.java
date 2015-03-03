@@ -1,43 +1,64 @@
 import java.util.*;
 import java.io.*;
 
-public class MergesortArray {
+public class Mergesort {
 
-    public int[] Merge(int[] a, int[] b) {
-        int[] ans = new int[a.length + b.length];
+    public ArrayList<Integer> Sort(ArrayList<Integer> a) {
+	if (a.size() <= 1) {
+	    return a;
+	}
+	ArrayList<Integer> one = new ArrayList<Integer>();
+	ArrayList<Integer> two = new ArrayList<Integer>();
+	for (int i = 0; i < a.size() / 2; i++) {
+	    one.add(a.get(i));
+	}
+	for (int i = a.size()/2; i < a.size(); i++) {
+	    two.add(a.get(i));
+	}
+	ArrayList<Integer> first = Sort(one);
+	ArrayList<Integer> second = Sort(two);
+	return Merge(first, second);
+    }
+
+    public ArrayList<Integer> Merge(ArrayList<Integer> a, ArrayList<Integer> b) {
+	ArrayList<Integer> ans = new ArrayList<Integer>();
 	int acount = 0;
 	int bcount = 0;
-	int counter = 0;
-	while (acount < a.length && bcount < b.length) {
-	    if (a[acount] < b[bcount]) {
-		ans[counter] = a[acount];
-		counter++;
+	while (acount < a.size() && bcount < b.size()) {
+	    if (a.get(acount) < b.get(bcount)) {
+		ans.add(a.get(acount));
 		acount++;
 	    }
 	    else {
-		ans[counter] = b[bcount];
-		counter++;
+		ans.add(b.get(bcount));
 		bcount++;
 	    }
 	}
-	if (acount < a.length) {
-	    for (int i = acount; i < a.length; i++) {
-		ans[counter] = a[i];
-		counter++;
+	if (acount < a.size()) {
+	    for (int i = acount; i < a.size(); i++) {
+		ans.add(a.get(i));
 	    }
 	}
 	else {
-	    for (int i = bcount; i < b.length; i++) {
-		ans[counter] = b[i];
-		counter++;
+	    for (int i = bcount; i < b.size(); i++) {
+		ans.add(b.get(i));
 	    }
 	}
 	return ans;
+
     }
     public static void main(String[] args) {
-	MergesortArray s = new MergesortArray();
-        int[] a = new int[]{3, 4, 17, 23, 44, 100, 111};
-	int[] b = new int[]{0, 2, 3, 4, 5, 6, 7, 10, 11, 14, 17, 19};
-	System.out.println(Arrays.toString(s.Merge(a, b)));
+	Mergesort s = new Mergesort();
+	ArrayList<Integer> a = new ArrayList<Integer>();
+	a.add(4);
+	a.add(1);
+	a.add(3);
+	a.add(0);
+	a.add(10);
+	a.add(3);
+	a.add(6);
+	a.add(8);
+	a.add(4);
+	System.out.println(s.Sort(a));
     }
 }
