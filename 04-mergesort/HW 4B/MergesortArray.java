@@ -1,64 +1,61 @@
 import java.util.*;
 import java.io.*;
 
-public class Mergesort {
+public class MergesortArray {
 
-    public ArrayList<Integer> Sort(ArrayList<Integer> a) {
-	if (a.size() <= 1) {
+    public int[] Sort(int[] a) {
+	if (a.length <= 1) {
 	    return a;
 	}
-	ArrayList<Integer> one = new ArrayList<Integer>();
-	ArrayList<Integer> two = new ArrayList<Integer>();
-	for (int i = 0; i < a.size() / 2; i++) {
-	    one.add(a.get(i));
+	int[] one = new int[a.length/2];
+	int[] two = new int[a.length - a.length/2];
+	for (int i = 0; i < a.length / 2; i++) {
+	    one[i] = a[i];
 	}
-	for (int i = a.size()/2; i < a.size(); i++) {
-	    two.add(a.get(i));
+	int counter = 0;
+	for (int i = a.length/2; i < a.length; i++) {
+	    two[counter] = a[i];
+	    counter++;
 	}
-	ArrayList<Integer> first = Sort(one);
-	ArrayList<Integer> second = Sort(two);
+	int[] first = Sort(one);
+        int[] second = Sort(two);
 	return Merge(first, second);
     }
 
-    public ArrayList<Integer> Merge(ArrayList<Integer> a, ArrayList<Integer> b) {
-	ArrayList<Integer> ans = new ArrayList<Integer>();
+    public int[] Merge(int[] a, int[] b) {
+        int[] ans = new int[a.length + b.length];
 	int acount = 0;
 	int bcount = 0;
-	while (acount < a.size() && bcount < b.size()) {
-	    if (a.get(acount) < b.get(bcount)) {
-		ans.add(a.get(acount));
+	int counter = 0;
+	while (acount < a.length && bcount < b.length) {
+	    if (a[acount] < b[bcount]) {
+		ans[counter] = a[acount];
+		counter++;
 		acount++;
 	    }
 	    else {
-		ans.add(b.get(bcount));
+		ans[counter] = b[bcount];
+		counter++;
 		bcount++;
 	    }
 	}
-	if (acount < a.size()) {
-	    for (int i = acount; i < a.size(); i++) {
-		ans.add(a.get(i));
+	if (acount < a.length) {
+	    for (int i = acount; i < a.length; i++) {
+		ans[counter] = a[i];
+		counter++;
 	    }
 	}
 	else {
-	    for (int i = bcount; i < b.size(); i++) {
-		ans.add(b.get(i));
+	    for (int i = bcount; i < b.length; i++) {
+		ans[counter] = b[i];
+		counter++;
 	    }
 	}
 	return ans;
-
     }
     public static void main(String[] args) {
-	Mergesort s = new Mergesort();
-	ArrayList<Integer> a = new ArrayList<Integer>();
-	a.add(4);
-	a.add(1);
-	a.add(3);
-	a.add(0);
-	a.add(10);
-	a.add(3);
-	a.add(6);
-	a.add(8);
-	a.add(4);
-	System.out.println(s.Sort(a));
+	MergesortArray s = new MergesortArray();
+        int[] a = new int[]{1, 3, 4, 2, 1, 2, 3, 10, 12, 34, 12, 11, 10, 32, 12, 123, 23, 21}; 
+	System.out.println(Arrays.toString(s.Sort(a)));
     }
 }
