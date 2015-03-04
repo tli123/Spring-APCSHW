@@ -50,15 +50,11 @@ public class Mergesort {
     public static void main(String[] args) {
 	Mergesort s = new Mergesort();
 	ArrayList<Integer> a = new ArrayList<Integer>();
-	a.add(4);
-	a.add(1);
-	a.add(3);
-	a.add(0);
-	a.add(10);
-	a.add(3);
-	a.add(6);
-	a.add(8);
-	a.add(4);
-	System.out.println(s.Sort(a));
+        for (int i = 0; i < 100; i++) {
+	    Random r = new Random();
+	    a.add(r.nextInt(100));
+	}
+	System.out.println("Original: " +  a);
+	System.out.println("Sorted: " + s.Sort(a));
     }
 }

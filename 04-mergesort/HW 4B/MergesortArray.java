@@ -55,7 +55,12 @@ public class MergesortArray {
     }
     public static void main(String[] args) {
 	MergesortArray s = new MergesortArray();
-        int[] a = new int[]{1, 3, 4, 2, 1, 2, 3, 10, 12, 34, 12, 11, 10, 32, 12, 123, 23, 21}; 
-	System.out.println(Arrays.toString(s.Sort(a)));
+        int[] a = new int[100];
+	for (int i = 0; i < 100; i++) {
+	    Random r = new Random();
+	    a[i] = r.nextInt(100);
+	}
+	System.out.println("Original: " + Arrays.toString(a));
+	System.out.println("Sorted: " + Arrays.toString(s.Sort(a)));
     }
 }
