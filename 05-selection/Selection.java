@@ -3,37 +3,34 @@ import java.util.*;
 
 public class Selection {
 
-    /*
-    public static int smallest(int k, int[] nums) {
-	System.out.println("Unsorted Array: " + Arrays.toString(nums));
-	Arrays.sort(nums);
-	System.out.println("Sorted Array: " + Arrays.toString(nums));
-	return nums[k];
+    public static int[] partition(int[] L, int start, int end) {
+	int[] D = new int[L.length];
+	for (int i = 0; i < start; i++) {
+	    D[i] = L[i];
+	}
+	for (int i = end + 1; i < L.length; i++) {
+	    D[i] = L[i];
+	}
+	int pivot = L[start];
+	start++;
+        int ending = end;
+	for (int i = start; i < ending; i++) {
+	    if (L[i] < pivot) {
+		D[start] = L[i];
+		start++;
+	    }
+	    else if (L[i] > pivot) {
+		D[ending] = L[i];
+		ending--;
+	    }
+	}
+	D[start] = pivot;
+	return D;
     }
-    
+
     public static void main(String[] args) {
 	Selection s = new Selection();
-	int[] a = new int[100];
-	for (int i = 0; i < 100; i++) {
-	    Random r = new Random();
-	    a[i] = r.nextInt(100);
-	}
-	Random w = new Random();
-	int k = w.nextInt(100);
-	String statement = "";
-	if (k%10 == 1) {
-	    statement = "The " + k + "st smallest element: ";
-	}
-	if (k%10 == 2) {
-	    statement = "The " + k + "nd smallest element: ";
-	}
-	if (k%10 == 3) {
-	    statement = "The " + k + "rd smallest element: ";
-	}
-	else if (k%10 == 0 || k%10 > 3) {
-	    statement = "The " + k + "th smallest element: ";
-	}
-	System.out.println(statement + smallest(k, a));
+	int[] array = new int[] {10, 3, 7, 8, 2, 9, 4, 6, 1, 5};
+	System.out.println(Arrays.toString(partition(array, 0, array.length - 1)));
     }
-    */
 }
