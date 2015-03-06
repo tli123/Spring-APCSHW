@@ -21,6 +21,7 @@ public class Selection {
 		Hi--;
 	    }
 	}
+	//shift pivot into where hi and low converge
     }
 
     public int Select(int[] A, int k, int l, int h) {
