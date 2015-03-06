@@ -3,34 +3,32 @@ import java.util.*;
 
 public class Selection {
 
-    public static int[] partition(int[] L, int start, int end) {
-	int[] D = new int[L.length];
-	for (int i = 0; i < start; i++) {
-	    D[i] = L[i];
-	}
-	for (int i = end + 1; i < L.length; i++) {
-	    D[i] = L[i];
-	}
-	int pivot = L[start];
-	start++;
-        int ending = end;
-	for (int i = start; i < ending; i++) {
-	    if (L[i] < pivot) {
-		D[start] = L[i];
-		start++;
+    public int partition(int[] A, int k, int low, int high) {
+	int pivot = A[k];
+	int temp = A[high];
+	A[high] = pivot;
+	A[k] = temp;
+	int Li = low;
+	int Hi = high - 1;
+	while (Li < Hi) {
+	    if (A[Li] < pivot) {
+		Li++;
 	    }
-	    else if (L[i] > pivot) {
-		D[ending] = L[i];
-		ending--;
+	    if (A[Li] > pivot) {
+		int tmp = A[Li];
+		A[Li] = A[Hi];
+		A[Hi] = tmp;
+		Hi--;
 	    }
 	}
-	D[start] = pivot;
-	return D;
+    }
+
+    public int Select(int[] A, int k, int l, int h) {
+
     }
 
     public static void main(String[] args) {
 	Selection s = new Selection();
-	int[] array = new int[] {10, 3, 7, 8, 2, 9, 4, 6, 1, 5};
-	System.out.println(Arrays.toString(partition(array, 0, array.length - 1)));
+
     }
 }
