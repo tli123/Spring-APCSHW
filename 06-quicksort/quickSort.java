@@ -59,18 +59,6 @@ public class quickSort{
 	}
 	return (wall+rwall)/2;
     }		
-		
-    public int qselect(int[] a, int k, int l, int h){
-	int pi,pval;
-	pi = partition(a,l,h);
-	pval = a[pi];
-	if (k==pi)
-	    return pval;
-	else if (k > pi)
-	    return qselect(a,k,pi+1,h);
-	else
-	    return qselect(a,k,l,pi-1);
-    }
 
     public int[] sort(int[] A, int low, int high) {
 	if (low < high) {
@@ -80,18 +68,10 @@ public class quickSort{
 	}
 	return A;
     }
-		
-    public int select(int k){
-	b = Arrays.copyOf(a,a.length);
-	return qselect(b,k,0,b.length-1);
-    }
-		
+			
     public static void main(String[] args) {
         quickSort q = new quickSort();
 	System.out.println(q);
-	for (int i=0;i<5;i++) {
-	    System.out.print(q.select(i)+" ");
-	}
 	System.out.println();
 	q.sort(q.a, 0, q.a.length - 1);
 	System.out.println(q);
