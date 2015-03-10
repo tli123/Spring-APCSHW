@@ -93,8 +93,7 @@ public class quickSort{
 	    System.out.print(q.select(i)+" ");
 	}
 	System.out.println();
-	Arrays.sort(q.a);
-				
+	q.sort(q.a, 0, q.a.length - 1);
 	System.out.println(q);
 
     }
