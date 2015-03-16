@@ -23,19 +23,19 @@ public class LList{
     public void insert(int index, String s) {
 	int count = 0;
 	Node tmp = l;
-        while (count < index && tmp != null) {
+        while (count - 1 < index) {
 	    tmp = tmp.getNext();
 	    count++;
 	}
 	Node n = new Node(s);
-	n.setNext(tmp.getNext());
+	n.setNext(tmp.getNext()); 
 	tmp.setNext(n);
     }
     
     public String toString(){
 	String s = "";
-	Node tmp;;
-	for (tmp=l ; tmp!=null ; tmp=tmp.getNext()){
+	Node tmp;
+	for (tmp = l ; tmp != null ; tmp = tmp.getNext()){
 	    s = s + tmp + " --> ";
 	}
 	s = s + "null";
@@ -44,11 +44,11 @@ public class LList{
 
     public static void main(String[] args) {
 	LList ll = new LList();
-	Node n = new Node("Zamansky");
-	Node n1 =  new Node("is");
-	Node n2 = new Node("teacher");
+	ll.add("Zamansky");
+	ll.add("is");
+	ll.add("teacher");
 	System.out.println(ll.find(0));
-	ll.insert(2, "is");
+	ll.insert(0, "a");
 	System.out.println(ll);
     }
 }
