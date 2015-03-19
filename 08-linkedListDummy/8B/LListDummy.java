@@ -1,3 +1,6 @@
+import java.util.*;
+import java.io.*;
+
 public class LListDummy {
 
     private Node l = null;
@@ -36,10 +39,6 @@ public class LListDummy {
 	    }
 	    tmp = tmp.getNext();
 	}
-	if (index == size() - 1) {
-	    System.out.println("added dummy");
-	    add(dummy.getData());
-	}
 	Node n = new Node(num);
 	n.setNext(tmp.getNext());
 	tmp.setNext(n);
@@ -55,17 +54,34 @@ public class LListDummy {
 	s = s + "null";
 	return s;
     }
-    /*
-    public void remove(int index) {
-    }
 
-    public boolean removev2(int n) {
+    public boolean remove(int index) {
+	boolean found = false;
+	if (index > size() - 1) {
+	    throw new IndexOutOfBoundsException("Invalid Index");
+	}
+	Node tmp = l;
+	for (int i = 0; i < size(); i++) {
+	    if (i == index) {
+		found = true;
+		break;
+	    }
+	    tmp = tmp.getNext();
+	}
+	if (found = true) {
+	    tmp.setNext(tmp.getNext().getNext());
+	}
+	return found;
     }
 
     public int sum() {
+	int sum = 0;
+	for (int i = 0; i < size(); i++) {
+	    sum += get(i);
+	}
+	return sum;
     }
 
-    */
 
     public int size() {
 	return len;
@@ -74,18 +90,38 @@ public class LListDummy {
 
     public static void main(String[] args) {
 	LListDummy ll = new LListDummy();
-	ll.add(1);
-	ll.add(2);
-	ll.add(3);
-	ll.add(4);
-	ll.add(5);
-	System.out.println(ll);
-	System.out.println(ll.get(2));
-	ll.add(3, 9);
-	System.out.println(ll);
-	ll.add(5, 10);
-	System.out.println(ll);
-	System.out.println(ll.get(3));
-	System.out.println(ll.get(4));
+        LinkedList<Integer> l = new LinkedList<Integer>();
+	ArrayList<Integer> nums = new ArrayList<Integer>();
+	Random r = new Random();
+	long start;
+	for (int i = 0; i < 10000; i++) {
+	    int num = r.nextInt();
+	    ll.add(num);
+	    l.add(num);
+	    nums.add(num);
+	}
+	start = System.currentTimeMillis();
+	int lldsum = ll.sum();
+	System.out.println("Written LinkedList sum: " + lldsum);
+	System.out. println("Time: " + (System.currentTimeMillis() - start));
+	int llsum = 0;
+        start = System.currentTimeMillis();
+	for (int i = 0; i < l.size(); i++) {
+	    llsum += l.get(i);
+	}
+	System.out.println("Built-in LinkedList sum: " + llsum);
+	System.out.println("Time: " + (System.currentTimeMillis() - start));
+	int alsum = 0;
+        start = System.currentTimeMillis();
+        for (int i = 0; i < nums.size(); i++) {
+	    alsum += nums.get(i);
+	}
+	System.out.println("ArrayList sum: " + alsum);
+	System.out. println("Time: " + (System.currentTimeMillis() - start));
     }
+
+    /*
+      The written LinkedList took much longer than the built-in version.
+      However, the ArrayList sum took the fastest.
+    */
 }
