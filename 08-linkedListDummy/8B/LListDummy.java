@@ -32,6 +32,9 @@ public class LListDummy {
 	if (index > size() - 1) {
 	    throw new IndexOutOfBoundsException("Invalid Index");
 	}
+	if (index == 0) {
+	    add(index);
+	}
 	Node tmp = l;
 	for (int i = 0; i < size(); i++) {
 	    if (i == index) {
