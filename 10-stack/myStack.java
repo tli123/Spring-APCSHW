@@ -1,6 +1,5 @@
 public class myStack<E> {
 
-    private Node<E> dummy = new Node<E>();
     private Node<E> top;
 
     public myStack() {
@@ -8,25 +7,23 @@ public class myStack<E> {
     }
 
     public void push(E data) {
-	Node<E> tmp = dummy;
-	while (tmp != null) {
-	    tmp = tmp.getNext();
-	}
-	Node<E> n = new Node<E>(data);
-	n.setNext(tmp.getNext());
-	tmp.setNext(n);
+	Node<E> tmp = new Node<E>(data);
+	tmp.setPrevious(top);
+	top.setNext(tmp);
+	top = tmp;
     }
 
-    /*
+    
     public E pop() {
-	
+	Node<E> tmp = top;
+	top = tmp.getPrevious();
+	top.setNext(null);
+	return tmp.getData();
     }
 
     public boolean empty() {
-	
+	return top.getData() == null;
     }
-
-    */
 
     public E top() {
 	return top.getData();
@@ -35,15 +32,11 @@ public class myStack<E> {
     public String toString(){
 	String s = "";
 	Node tmp;
-	for (tmp = dummy ; tmp != null ; tmp = tmp.getNext()){
+	for (tmp = top; tmp != null && tmp.getData() != null; tmp = tmp.getPrevious()){
 	    s = s + tmp + " --> ";
 	}
-	s = s + "null";
+	s += "null";
 	return s;
-    }
-
-    public static void main(String[] args) {
-
     }
 
 }
