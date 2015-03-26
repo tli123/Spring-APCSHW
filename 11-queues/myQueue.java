@@ -33,7 +33,7 @@ public class myQueue<E>{
 	Node<E> tmp;
 	String s = "";
 	for (tmp = head; tmp != null && tmp.getData() != null; tmp = tmp.getNext()){
-	    s = s + tmp + " --> ";
+	    s = s + tmp + " <-- ";
 	}
 	s += "null";
 	return s;
