@@ -30,8 +30,8 @@ public class myQueue<E>{
     }
 
     public String toString(){
-	String s = "null --> ";
-	Node tmp;
+	Node<E> tmp;
+	String s = "";
 	for (tmp = head; tmp != null && tmp.getData() != null; tmp = tmp.getNext()){
 	    s = s + tmp + " --> ";
 	}
