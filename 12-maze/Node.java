@@ -34,3 +34,4 @@ public class Node {
     public void setProcessed(boolean b) {
 	processed = b;
     }
+}
