@@ -18,15 +18,12 @@ public class Maze {
 	maxY=20;
 	board = new char[maxX][maxY];
 	
-	try {
-	    
+	try {	    
 	    Scanner sc = new Scanner(new File("maze.dat"));
 	    int j=0;
-	    while (sc.hasNext())
-		{
+	    while (sc.hasNext()) {
 		    String line = sc.nextLine();
-		    for (int i=0; i<maxX; i++)
-			{
+		    for (int i=0; i<maxX; i++){
 			    board[i][j] = line.charAt(i);
 			}
 		    j++;

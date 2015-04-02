@@ -1,9 +1,9 @@
-public class myQueue<E> {
+public class myQueue {
 
-    private Node<E> front, back = null;
+    private Node front, back = null;
 
-    public void enqueue(E data) {
-	Node<E> tmp = new Node<E>(data);
+    public void enqueue(int xCor, int yCor) {
+	Node tmp = new Node(xCor, yCor);
 	if (empty()) {
 	    front = tmp;
 	    back = tmp;
@@ -11,13 +11,14 @@ public class myQueue<E> {
 	    back.setNext(tmp);
 	    back = tmp;
 	}
+	tmp.setProcessed(false);
     }
 
-    public E dequeue() {
+    public String dequeue() {
 	if (empty()) {
 	    throw new NullPointerException();
 	}
-	E retval = head();
+	String retVal = head();
 	front = front.getNext();
 	if (front == null) {
 	    back == null;
@@ -25,8 +26,8 @@ public class myQueue<E> {
 	return retval;	
     }
 
-    public E head() {
-	return front.getData();
+    public String head() {
+	return "xCor: " + front.getX() + "; yCor: " + front.getY();
     }
 
     public boolean empty() {

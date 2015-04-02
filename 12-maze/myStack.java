@@ -1,32 +1,33 @@
-public class myStack<E> {
+public class myStack {
 
-    private Node<E> current;
+    private Node current;
 
     public myStack() {
-	current = new Node<E>();
+	current = new Node();
     }
 
-    public void push(E data) {
-	Node<E> tmp = new Node<E>(data);
+    public void push(int xCor, int yCor) {
+	Node tmp = new Node(xCor, yCor);
+	tmp.setProcessed(false);
 	current.setNext(tmp);
 	tmp.setPrevious(current);
 	current = tmp;
     }
 
-    public E pop() {
-	Node<E> tmp = current;
-	Node<E> next = current.getPrevious();
+    public String pop() {
+	Node tmp = current;
+	Node next = current.getPrevious();
 	current = next;
 	current.setNext(null);
-	return tmp.getData();
+	return "xCor: " + tmp.getX(); + "; yCor: " + tmp.getY;
     }
 
     public boolean empty() {
 	return current.getPrevious() == null;
     }
 
-    public E top() {
-	return current.getData();
+    public String top() {
+	return "xCor: " + current.getX(); + "; yCor: " + current.getY;
     }
 
     public String toString() {
