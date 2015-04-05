@@ -1,37 +1,38 @@
-public class Node {
-
-    private int xCor, yCor;    
+public class Node{
     private Node next;
-    private boolean processed;
 
-    public Node(int x, int y) {
-	xCor = x;
-	yCor = y;
-	next = null;
-	processed = false;
+    private Node back;
+    private int dist;
+
+    private int x, y;
+    
+    public Node() {
+	this(0, 0);
     }
-
-    public void setNext(Node n) {
-	next = n;
+    
+    public Node(int x, int y) {
+	this.x = x;
+	this.y = y;
+	next = null;
+	back = null;
     }
 
     public Node getNext() {
 	return next;
     }
-
+    public void setNext(Node node) {
+	next = node;
+    }
+    public Node getBack() {
+	return back;
+    }
+    public void setBack(Node node) {
+	back = node;
+    }
     public int getX() {
-	return xCor;
+	return x;
     }
-    
     public int getY() {
-	return yCor;
-    }
-
-    public boolean getProcessed() {
-	return processed;
-    }
-
-    public void setProcessed(boolean b) {
-	processed = b;
+	return y;
     }
 }
