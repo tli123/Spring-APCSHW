@@ -1,46 +1,62 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Maze {
-
+public class maze {
     private char[][] board;
-    private int maxX, maxY, exitX, exitY;
+    private int maxX;
+    private int maxY;
 
-    private static final char path = '#';
-    private static final char wall = ' ';
-    private static final char me = 'T';
-    private static final char exit = '$';
+    private int exitX;
+    private int exitY;
+    
+    private static final char path='#';
+    private static final char wall=' ';
+    private static final char me='z';
+    private static final char exit='$';
     private static final char visited = '.';
     private boolean solved = false;
 
     private priorityQueue frontier = new priorityQueue();
-
-    public Maze() {
-	maxX = 40;
-	maxY = 20;
-	board = new char[maxX][maxY];
+		
+    public void delay(int n){
 	try {
+	    Thread.sleep(n);
+	} catch (Exception e) {
+	}
+    }
+		
+    public maze() {
+	maxX=40;
+	maxY=20;
+	board = new char[maxX][maxY];
+	
+	try {					
 	    Scanner sc = new Scanner(new File("maze.dat"));
-	    int j = 0;
+	    int j=0;
 	    while (sc.hasNext()) {
 		String line = sc.nextLine();
-		for (int i = 0; i < maxX; i++) {
+		for (int i=0;i<maxX;i++) {
 		    board[i][j] = line.charAt(i);
 		}
 		j++;
 	    }
 	    findExit();
-	} catch (Exception e) {}
+	}
+	catch (Exception e) {
+	}			
     }
 
-    public void bestFirst(Node start) {
-	if (isExit(start)) {
-	    solved = true;
-	}
+    /*
+      solved - instance variable to indicate we're done
+			
+    */
+    public void BFS(Node start){
+	if (isExit(start)) solved = true;
 	if (isPath(start)) {
 	    frontier.enqueue(start);
 	}
 	Node current = start;
+	//finds a path
 	while (solved == false && !frontier.empty()) {
 	    System.out.println(this);
 	    current = frontier.dequeue();
@@ -52,19 +68,19 @@ public class Maze {
 	    } else {
 		board[x][y] = visited;
 		delay(100);
-		Node top = new Node(x, y - 1, pyDist(x, y - 1));
-		Node bottom = new Node (x, y + 1, pyDist(x, y - 1));
-		Node left = new Node(x - 1, y, pyDist(x - 1, y));
-		Node right = new Node(x + 1, y, pyDist(x + 1, y));
+		Node top = new Node(x, y - 1, pydist(x, y - 1));
+		Node right = new Node(x + 1, y, pydist(x + 1, y));
+		Node bottom = new Node(x, y + 1, pydist(x, y + 1));
+		Node left = new Node(x - 1, y, pydist(x - 1, y));
 		toEnqueue(top, current);
+		toEnqueue(right, current);
 		toEnqueue(bottom, current);
 		toEnqueue(left, current);
-		toEnqueue(right, current);
-		delay(100);
 	    }
 	}
 	if (solved) {
 	    Node tmp = current;
+	    //draws in correct path
 	    while (tmp != null) {
 		int x = tmp.getX();
 		int y = tmp.getY();
@@ -75,13 +91,12 @@ public class Maze {
     }
 
     public void aStar(Node start) {
-	if (isExit(start)) {
-	    solved = true;
-	}
+	if (isExit(start)) solved = true;
 	if (isPath(start)) {
 	    frontier.enqueue(start);
 	}
 	Node current = start;
+	//finds a path
 	while (solved == false && !frontier.empty()) {
 	    System.out.println(this);
 	    current = frontier.dequeue();
@@ -92,20 +107,20 @@ public class Maze {
 		board[x][y] = visited;
 	    } else {
 		board[x][y] = visited;
-		delay(100);
-		Node top = new Node(x, y - 1, current.getSteps() + 1, pyDist(x, y - 1));
-		Node bottom = new Node (x, y + 1, current.getSteps() + 1, pyDist(x, y - 1));
-		Node left = new Node(x - 1, y, current.getSteps() +  1, pyDist(x - 1, y));
-		Node right = new Node(x + 1, y, current.getSteps() + 1, pyDist(x + 1, y));
+		Node top = new Node(x, y - 1, current.getcsn() + 1, pydist(x, y - 1));
+		Node right = new Node(x + 1, y, current.getcsn() + 1, pydist(x + 1, y));
+		Node bottom = new Node(x, y + 1, current.getcsn() + 1, pydist(x, y + 1));
+		Node left = new Node(x - 1, y, current.getcsn() + 1, pydist(x - 1, y));
 		toEnqueue(top, current);
+		toEnqueue(right, current);
 		toEnqueue(bottom, current);
 		toEnqueue(left, current);
-		toEnqueue(right, current);
 		delay(100);
 	    }
 	}
 	if (solved) {
 	    Node tmp = current;
+	    //draws in correct path
 	    while (tmp != null) {
 		int x = tmp.getX();
 		int y = tmp.getY();
@@ -114,13 +129,7 @@ public class Maze {
 	    }
 	}
     }
-
-    public void delay(int n){
-	try {
-	    Thread.sleep(n);
-	} catch (Exception e) {}
-    }
-
+    
     public void findExit() {
 	for (int i = 0; i < maxX; i++) {
 	    for (int j = 0; j < maxY; j++) {
@@ -131,28 +140,31 @@ public class Maze {
 	    }
 	}
     }
-    
-    public int manDist(int x, int y) {
+
+    public int mandist(int x, int y) {
 	return (exitX - x) + (exitY - y);
     }
 
-    public int pyDist(int x, int y) {
+    public int pydist(int x, int y) {
 	return (int)Math.sqrt(Math.pow(exitX - x, 2) + Math.pow(exitY - y, 2));
     }
-
-    public void toEnqueue(Node queued, Node traced) {
-	if (isPath(queued) || isExit(traced)) {
+    
+    //checks if node should be queued and queues it
+    public void toEnqueue(Node queued, Node traceback) {
+	if (isPath(queued) || isExit(queued)) {
 	    frontier.enqueue(queued);
-	    queued.setBack(traced);
+	    queued.setBack(traceback);
 	}
     }
 
+    //checks if node is a path
     public boolean isPath(Node n) {
 	return (n.getX() < maxX && n.getX() > 0 &&
 		n.getY() < maxY && n.getY() > 0 &&
 		board[n.getX()][n.getY()] == path);
     }
 
+    //checks if node is exit
     public boolean isExit(Node n) {
 	return board[n.getX()][n.getY()] == exit;
     }
@@ -161,19 +173,21 @@ public class Maze {
 	//String s = "[2J\n";
 	String s = "";
 	
-	for (int y = 0; y < maxY; y++) {
-	    for (int x = 0 ; x < maxX; x++)
+	for (int y=0;y<maxY;y++) {
+	    for (int x=0;x<maxX;x++)
 		s = s +board[x][y];
-	    s = s + "\n";
+	    s=s+"\n";
 	}
+	//s = s + "\n" + frontier;
 	return s;
     }
-
-    public static void main(String[] args) {
-	Maze m = new Maze();
+		
+    public static void main(String[] args){
+	maze m = new maze();
 	System.out.println(m);
-	m.bestFirst(new Node(1, 1, m.pyDist(1, 1)));
-	//m.aStar(new Node(1, 1, m.pyDist(1, 1)));
+	//m.BFS(new Node(1, 1, m.pydist(1, 1)));
+	m.aStar(new Node(1, 1, m.pydist(1, 1)));
 	System.out.println(m);
+		
     }
 }

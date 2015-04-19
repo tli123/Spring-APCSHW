@@ -1,64 +1,65 @@
 public class Node {
 
-    private Node next, previous, back;
-    private int priority, steps, distance, x, y;
+    //instance variables for queue
+    private Node next;
+    private Node before;
+    private int priority;
+    //csn = current step number [the number of steps made so far]
+    private int csn;
+    //dist = distance from exit
+    private int dist;
+    
+    //for route trace back
+    private Node back;
 
+    private int x, y;
+    
     public Node() {
 	this(0, 0, 0, 0);
     }
 
-    public Node(int x, int y, int distance) {
-	this(x, y, 0, distance);
+    public Node(int x, int y, int distToExit) {
+	this(x, y, 0, distToExit);
     }
-
-    public Node(int x, int y, int steps, int distance) {
+    
+    public Node(int x, int y, int csn, int distToExit) {
 	this.x = x;
 	this.y = y;
-	this.steps = steps;
 	next = null;
 	back = null;
-	this.distance = distance;
-	priority = steps + distance;
+	this.csn = csn;
+	dist = distToExit;
+	priority = csn + distToExit;
     }
 
     public Node getNext() {
 	return next;
     }
-
-    public void setNext(Node n) {
-	next = n;
+    public void setNext(Node node) {
+	next = node;
     }
-
-    public Node getPrevious() {
-	return previous;
+    public Node getBefore() {
+	return before;
     }
-
-    public void setPrevious(Node n) {
-	previous = n;
+    public void setBefore(Node node) {
+	before = node;
     }
-	
     public Node getBack() {
 	return back;
     }
-    
-    public void setBack(Node n) {
-	back = n;
+    public void setBack(Node node) {
+	back = node;
     }
-    
     public int getX() {
 	return x;
     }
-
     public int getY() {
 	return y;
     }
-
     public int getPriority() {
 	return priority;
     }
-
-    public int getSteps() {
-	return steps;
+    public int getcsn() {
+	return csn;
     }
-
 }

@@ -1,7 +1,10 @@
 public class priorityQueue {
 
     private int length;
-    private Node front, end;
+
+    //Node
+    private Node front;
+    private Node end;
 
     public priorityQueue() {
 	front = null;
@@ -9,6 +12,7 @@ public class priorityQueue {
 	length = 0;
     }
 
+    //Add node based on priority
     public void enqueue(Node n) {
 	if (front == null) {
 	    front = n;
@@ -22,63 +26,69 @@ public class priorityQueue {
 		    i = tmp.getPriority();
 		}
 	    }
-	    Node previous;
+	    Node prev;
 	    if (tmp == null) {
-		previous = end;
+		prev = end;
 	    } else {
-		previous = tmp.getPrevious();
+		prev = tmp.getBefore();
 	    }
-	    insert(previous, tmp, n);
+	    insert(prev, tmp, n);
 	}
 	length++;
     }
 
-    public void enqueue(int x, int y, int distance) {
-	Node tmp = new Node(x, y, distance);
+    //add to back of queue
+    public void enqueue(int x, int y, int distToExit) {
+	Node tmp = new Node(x, y, distToExit);
 	enqueue(tmp);
     }
 
+    //remove and return front
     public Node dequeue() {
 	if (!empty()) {
-	    Node retNode = front;
+	    Node retnode = front;
 	    front = front.getNext();
 	    if (front != null) {
-		front.setPrevious(null);
+		front.setBefore(null);
 	    }
-	    retNode.setNext(null);
+	    retnode.setNext(null);
 	    length--;
-	    return retNode;
+	    return retnode;
 	} else {
 	    return null;
 	}
     }
 
-     public void insert(Node previous, Node next, Node insert) {
-	if (previous == null) {
+    //Inserts a node between two nodes
+    public void insert(Node prev, Node next, Node insert) {
+	if (prev == null) {
 	    insert.setNext(next);
-	    next.setPrevious(insert);
+	    next.setBefore(insert);
 	    front = insert;
 	} else if (next == null) {
-	    previous.setNext(insert);
-	    insert.setPrevious(previous);
+	    prev.setNext(insert);
+	    insert.setBefore(prev);
 	    insert.setNext(next);
 	    end = insert;
 	} else {
-	    previous.setNext(insert);
-	    insert.setPrevious(previous);
+	    prev.setNext(insert);
+	    insert.setBefore(prev);
 	    insert.setNext(next);
-	    next.setPrevious(insert);
+	    next.setBefore(insert);
 	}
     }
-
+    
+    //check if queue is empty
     public boolean empty() {
 	return front == null;
     }
 
+    //return front
     public Node head() {
 	return front;
     }
 
+    //return length
     public int length() {
 	return length;
     }
