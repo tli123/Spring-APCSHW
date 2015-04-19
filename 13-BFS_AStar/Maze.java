@@ -1,0 +1,179 @@
+import java.util.*;
+import java.io.*;
+
+public class Maze {
+
+    private char[][] board;
+    private int maxX, maxY, exitX, exitY;
+
+    private static final char path = '#';
+    private static final char wall = ' ';
+    private static final char me = 'T';
+    private static final char exit = '$';
+    private static final char visited = '.';
+    private boolean solved = false;
+
+    private priorityQueue frontier = new priorityQueue();
+
+    public Maze() {
+	maxX = 40;
+	maxY = 20;
+	board = new char[maxX][maxY];
+	try {
+	    Scanner sc = new Scanner(new File("maze.dat"));
+	    int j = 0;
+	    while (sc.hasNext()) {
+		String line = sc.nextLine();
+		for (int i = 0; i < maxX; i++) {
+		    board[i][j] = line.charAt(i);
+		}
+		j++;
+	    }
+	    findExit();
+	} catch (Exception e) {}
+    }
+
+    public void bestFirst(Node start) {
+	if (isExit(start)) {
+	    solved = true;
+	}
+	if (isPath(start)) {
+	    frontier.enqueue(start);
+	}
+	Node current = start;
+	while (solved == false && !frontier.empty()) {
+	    System.out.println(this);
+	    current = frontier.dequeue();
+	    int x = current.getX();
+	    int y = current.getY();
+	    if (isExit(current)) {
+		solved = true;
+		board[x][y] = visited;
+	    } else {
+		board[x][y] = visited;
+		delay(100);
+		Node top = new Node(x, y - 1, pyDist(x, y - 1));
+		Node bottom = new Node (x, y + 1, pyDist(x, y - 1));
+		Node left = new Node(x - 1, y, pyDist(x - 1, y));
+		Node right = new Node(x + 1, y, pyDist(x + 1, y));
+		toEnqueue(top, current);
+		toEnqueue(bottom, current);
+		toEnqueue(left, current);
+		toEnqueue(right, current);
+		delay(100);
+	    }
+	}
+	if (solved) {
+	    Node tmp = current;
+	    while (tmp != null) {
+		int x = tmp.getX();
+		int y = tmp.getY();
+		board[x][y] = me;
+		tmp = tmp.getBack();
+	    }
+	}
+    }
+
+    public void aStar(Node start) {
+	if (isExit(start)) {
+	    solved = true;
+	}
+	if (isPath(start)) {
+	    frontier.enqueue(start);
+	}
+	Node current = start;
+	while (solved == false && !frontier.empty()) {
+	    System.out.println(this);
+	    current = frontier.dequeue();
+	    int x = current.getX();
+	    int y = current.getY();
+	    if (isExit(current)) {
+		solved = true;
+		board[x][y] = visited;
+	    } else {
+		board[x][y] = visited;
+		delay(100);
+		Node top = new Node(x, y - 1, current.getSteps() + 1, pyDist(x, y - 1));
+		Node bottom = new Node (x, y + 1, current.getSteps() + 1, pyDist(x, y - 1));
+		Node left = new Node(x - 1, y, current.getSteps() +  1, pyDist(x - 1, y));
+		Node right = new Node(x + 1, y, current.getSteps() + 1, pyDist(x + 1, y));
+		toEnqueue(top, current);
+		toEnqueue(bottom, current);
+		toEnqueue(left, current);
+		toEnqueue(right, current);
+		delay(100);
+	    }
+	}
+	if (solved) {
+	    Node tmp = current;
+	    while (tmp != null) {
+		int x = tmp.getX();
+		int y = tmp.getY();
+		board[x][y] = me;
+		tmp = tmp.getBack();
+	    }
+	}
+    }
+
+    public void delay(int n){
+	try {
+	    Thread.sleep(n);
+	} catch (Exception e) {}
+    }
+
+    public void findExit() {
+	for (int i = 0; i < maxX; i++) {
+	    for (int j = 0; j < maxY; j++) {
+		if (board[i][j] == exit) {
+		    exitX = i;
+		    exitY = j;
+		}
+	    }
+	}
+    }
+    
+    public int manDist(int x, int y) {
+	return (exitX - x) + (exitY - y);
+    }
+
+    public int pyDist(int x, int y) {
+	return (int)Math.sqrt(Math.pow(exitX - x, 2) + Math.pow(exitY - y, 2));
+    }
+
+    public void toEnqueue(Node queued, Node traced) {
+	if (isPath(queued) || isExit(traced)) {
+	    frontier.enqueue(queued);
+	    queued.setBack(traced);
+	}
+    }
+
+    public boolean isPath(Node n) {
+	return (n.getX() < maxX && n.getX() > 0 &&
+		n.getY() < maxY && n.getY() > 0 &&
+		board[n.getX()][n.getY()] == path);
+    }
+
+    public boolean isExit(Node n) {
+	return board[n.getX()][n.getY()] == exit;
+    }
+
+    public String toString() {
+	//String s = "[2J\n";
+	String s = "";
+	
+	for (int y = 0; y < maxY; y++) {
+	    for (int x = 0 ; x < maxX; x++)
+		s = s +board[x][y];
+	    s = s + "\n";
+	}
+	return s;
+    }
+
+    public static void main(String[] args) {
+	Maze m = new Maze();
+	System.out.println(m);
+	m.bestFirst(new Node(1, 1, m.pyDist(1, 1)));
+	//m.aStar(new Node(1, 1, m.pyDist(1, 1)));
+	System.out.println(m);
+    }
+}
