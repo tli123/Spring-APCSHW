@@ -46,17 +46,12 @@ public class maze {
 	}			
     }
 
-    /*
-      solved - instance variable to indicate we're done
-			
-    */
     public void BFS(Node start){
 	if (isExit(start)) solved = true;
 	if (isPath(start)) {
 	    frontier.enqueue(start);
 	}
 	Node current = start;
-	//finds a path
 	while (solved == false && !frontier.empty()) {
 	    System.out.println(this);
 	    current = frontier.dequeue();
@@ -80,7 +75,6 @@ public class maze {
 	}
 	if (solved) {
 	    Node tmp = current;
-	    //draws in correct path
 	    while (tmp != null) {
 		int x = tmp.getX();
 		int y = tmp.getY();
@@ -96,7 +90,6 @@ public class maze {
 	    frontier.enqueue(start);
 	}
 	Node current = start;
-	//finds a path
 	while (solved == false && !frontier.empty()) {
 	    System.out.println(this);
 	    current = frontier.dequeue();
@@ -120,7 +113,6 @@ public class maze {
 	}
 	if (solved) {
 	    Node tmp = current;
-	    //draws in correct path
 	    while (tmp != null) {
 		int x = tmp.getX();
 		int y = tmp.getY();
@@ -149,7 +141,6 @@ public class maze {
 	return (int)Math.sqrt(Math.pow(exitX - x, 2) + Math.pow(exitY - y, 2));
     }
     
-    //checks if node should be queued and queues it
     public void toEnqueue(Node queued, Node traceback) {
 	if (isPath(queued) || isExit(queued)) {
 	    frontier.enqueue(queued);
@@ -157,14 +148,12 @@ public class maze {
 	}
     }
 
-    //checks if node is a path
     public boolean isPath(Node n) {
 	return (n.getX() < maxX && n.getX() > 0 &&
 		n.getY() < maxY && n.getY() > 0 &&
 		board[n.getX()][n.getY()] == path);
     }
 
-    //checks if node is exit
     public boolean isExit(Node n) {
 	return board[n.getX()][n.getY()] == exit;
     }
@@ -178,7 +167,6 @@ public class maze {
 		s = s +board[x][y];
 	    s=s+"\n";
 	}
-	//s = s + "\n" + frontier;
 	return s;
     }
 		
@@ -187,6 +175,8 @@ public class maze {
 	System.out.println(m);
 	//m.BFS(new Node(1, 1, m.pydist(1, 1)));
 	m.aStar(new Node(1, 1, m.pydist(1, 1)));
+	//m.BFS(new Node(1, 1, m.mandist(1, 1)));
+	//m.aStar(new Node(1, 1, m.mandist(1, 1)));
 	System.out.println(m);
 		
     }
