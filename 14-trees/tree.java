@@ -7,39 +7,41 @@ public class tree {
     }
 
     public void insert(Node n, int i) {
-	t = root;
+	Node t = root;
 	while (t != null) {
-	    t2 = t;
-	    if (t2.getData() != i) {
-		if (t2.getData() < i) {
-		    t2 = t2.getLeft();
+	    if (t.getData() != i) {
+		if (t.getData() < i) {
+		    t = t.getLeft();
 		}
 		else {
-		    t2 = t2.getRight();
+		    t = t.getRight();
 		}
 	    }
-	    else {
-		break;
-	    }
 	}
-	/* Insertion here */
 	n = new Node(i);
+	if (t.getData() > i) {
+	    t.setLeft(n);
+	}
+	else {
+	    t.setRight(n);
+	}
     }
 
     public Node search(Node t, int i) {
 	t = root;
 	while (t != null) {
-	    int c = T.getData().compareTo(i);
+	    int c = t.getData().compareTo(i);
 	    if (c == 0) {
-		return T;
+		return t;
 	    }
 	    else if (c > 0) {
-		T = T.getRight();
+		t = t.getRight();
 	    }
 	    else {
-		T = T.getLeft();
+		t = t.getLeft();
 	    }
 	}
+	return null;
     }
 
     public static void main(String[] args) {
