@@ -44,9 +44,13 @@ public class tree {
 
 
     public String traverse(Node t) {
-	while (t != null) {
+	if (t == null) {
+	    return ans;
+	} else {
+	    String ans = "";
 	    ans += t + ", ";
-	    return traverse(t.getLeft()) + traverse(t.getRight())
+	    ans += traverse(t.getLeft()); 
+	    ans += traverse(t.getRight())
 	}
     }
 
