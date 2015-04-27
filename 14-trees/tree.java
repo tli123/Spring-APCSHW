@@ -1,47 +1,53 @@
 public class tree {
 
-    public Node root;
+    priavte Node r;
 
-    public tree(int i) {
-	root = new Node(i);
-    }
-
-    public void insert(Node n, int i) {
-	Node t = root;
-	while (t != null) {
-	    if (t.getData() != i) {
-		if (t.getData() < i) {
-		    t = t.getLeft();
-		}
-		else {
-		    t = t.getRight();
-		}
-	    }
+    public Node Search(Node t, int i) {
+	if (t == null || t.getData() == i) {
+	    return t;
 	}
-	n = new Node(i);
-	if (t.getData() > i) {
-	    t.setLeft(n);
+	else if (t.getData() > i) {
+	    Search(t.getRight(), i);
 	}
-	else {
-	    t.setRight(n);
+	else if (t.getData() < i) {
+	    Search(t.getLeft(), i);
 	}
     }
 
-    public Node search(Node t, int i) {
-	t = root;
+    public void insert(int i) {
+	Node n = new Node(i);
+	Node t2 = null;
+	Node t = r;
+	if (r == null) {
+	    r = n;
+	    return;
+	}
 	while (t != null) {
-	    int c = t.getData().compareTo(i);
-	    if (c == 0) {
-		return t;
+	    t2 = t;
+	    if (t.getData() == i) {
+		return;
 	    }
-	    else if (c > 0) {
+	    else if (t.getData() > i) {
 		t = t.getRight();
 	    }
-	    else {
+	    else if (t.getData() < i) {
 		t = t.getLeft();
 	    }
 	}
-	return null;
+	if (i > t2.getData()) {
+	    t2.setRight(n);
+	}
+	else {
+	    t2.setLeft(n);
+	}
+    }
+
+
+    public String traverse(Node t) {
+	while (t != null) {
+	    ans += t + ", ";
+	    return traverse(t.getLeft()) + traverse(t.getRight())
+	}
     }
 
     public static void main(String[] args) {
