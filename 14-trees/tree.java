@@ -1,6 +1,6 @@
 public class tree {
 
-    priavte Node r;
+    private Node r;
 
     public Node Search(Node t, int i) {
 	if (t == null || t.getData() == i) {
@@ -52,6 +52,36 @@ public class tree {
 	    ans += traverse(t.getLeft()); 
 	    ans += traverse(t.getRight())
 	}
+    }
+
+    public void remove(Node t, int i) {
+	Node t2 = search(t, i);
+	if (isLeaf(t2) == true) {
+	    if (t2.getLeft() == null) {
+		t.setRight(t2.getRight());
+	    }
+	    else {
+		t.setLeft(t2.getLeft());
+	    }
+	}
+	else {
+	    Node L = t2.getLeft();
+	    while (L.getRight() != null) {
+		L = L.getRight();
+	    }
+	    t = L;
+	    remove(T.getLeft(), L.getData())
+	}
+    }
+
+    public boolean isLeaf(Node t) {
+	if (t.getLeft() == null && t.getRight() == null) {
+	    return false;
+	}
+	if (t.getLeft() == null || t.getRight() == null) {
+	    return true;
+	}
+	return false;
     }
 
     public static void main(String[] args) {
