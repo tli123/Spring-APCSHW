@@ -100,7 +100,7 @@ public class tree {
         if (t.getNext() == null) {
 	    return t.getData();
 	} else {
-	    maxValue(t.getRight());
+	    return Math.max(maxValue(t.getLeft()), maxValue(t.getRight());
 	}
     }
 
@@ -133,11 +133,12 @@ public class tree {
 	if (t == null) {
 	    return 0;
 	}
-	int r = 1 + height(t.getLeft()) + height(t.getRight());
-	int left = longest(t.getLeft());
-	int right = longest(t.getRight());
-	return Math.max(r, left, right);
-    }
+	else {
+	    int r = 1 + height(t.getLeft()) + height(t.getRight());
+	    int left = longest(t.getLeft());
+	    int right = longest(t.getRight());
+	    return Math.max(r, left, right);
+	}
 
     public static void main(String[] args) {
 	tree t = new tree(23);
